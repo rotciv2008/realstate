@@ -8,11 +8,11 @@
   "use strict";
 
   const COLORS = {
-    vis: "#3B1D2A",
-    noVis: "#C5A3AE",
-    total: "#2A2A2E",
-    bogota: "#8D99AE",
-    rate: "#A58BD9"
+    vis: "#2F6F63",
+    noVis: "#A7C9B9",
+    total: "#9C8ADE",
+    bogota: "#B76E79",
+    rate: "#C5A3AE"
   };
 
   const SERIES = [
