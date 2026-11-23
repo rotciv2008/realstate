@@ -6,7 +6,7 @@
  *
  * Columnas utilizadas (índice JavaScript, comenzando en cero):
  *   A  = Fecha                         -> 0
- *   V  = Bogotá & Cundinamarca TOTAL   -> 21
+ *   V  = Bogotá & Cundinamarca TOTAL   -> 22
  *   FD = 19 Regionales VIS             -> 159
  *   FE = 19 Regionales NO VIS          -> 160
  *   FF = 19 Regionales TOTAL           -> 161
@@ -22,7 +22,7 @@
     commentsUrl: "data/observaciones.txt",
     firstDataRowIndex: 6, // Fila 7 de Excel: primera observación mensual.
     columns: {
-      bogotaTotal: 21,
+      bogotaTotal: 22,
       vis19: 159,
       noVis19: 160,
       total19: 161
