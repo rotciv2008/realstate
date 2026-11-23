@@ -15,11 +15,11 @@
   "use strict";
 
   const COLORS = {
-    vis: "#2f7e9e",
-    noVis: "#8ca9bf",
-    total: "#142f4f",
-    bogota: "#c49b55",
-    rate: "#b65c4b"
+    vis: "#3B1D2A",
+    noVis: "#C5A3AE",
+    total: "#2A2A2E",
+    bogota: "#8D99AE",
+    rate: "#A58BD9"
   };
 
   const SERIES = [
@@ -67,7 +67,7 @@
         label: "Bogotá & Cundinamarca · Total", data: rows.map(r => r.bogota), yAxisID: "y",
         borderColor: COLORS.bogota, backgroundColor: COLORS.bogota,
         pointRadius: 0, pointHoverRadius: 4, borderWidth: 2, fill: false,
-        tension: .2, borderDash: [5, 3], order: 2
+        tension: .2, spanGaps: true, order: 2
       },
       {
         label: "Tasa de interés", data: rows.map(r => r.rate), yAxisID: "y1",
