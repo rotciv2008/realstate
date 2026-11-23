@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+  <!-- =========================================================
+       SEO TÉCNICO Y METADATOS
+       Actualiza title/description si cambia el alcance del portal.
+       ========================================================= -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#142f4f">
+  <meta name="description" content="Panorama de unidades habitacionales en Colombia. Seguimiento de iniciaciones, lanzamientos, ventas y oferta de vivienda con información de Camacol y Coordenada Urbana.">
+  <meta name="robots" content="index,follow">
+  <meta name="author" content="Víctor Vásquez">
+  <meta name="keywords" content="vivienda Colombia, Camacol, Coordenada Urbana, iniciaciones, lanzamientos, ventas, oferta, VIS, No VIS, mercado inmobiliario">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_CO">
+  <meta property="og:site_name" content="Inteligencia Económica">
+  <meta property="og:title" content="Panorama de unidades habitacionales Colombia | Inteligencia Económica">
+  <meta property="og:description" content="Análisis de iniciaciones, lanzamientos, ventas y oferta de vivienda en Colombia. Datos Camacol.">
+  <meta name="twitter:card" content="summary">
+  <title>Panorama de unidades habitacionales Colombia | Inteligencia Económica</title>
+
+  <!-- Favicon SVG con el monograma IEVV, en línea con la identidad del portal IPC. -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/main.css">
+
+  <!-- Librerías externas: SheetJS lee el Excel y Chart.js construye los gráficos.
+       Se cargan desde CDN; el portal sigue siendo estático y compatible con GitHub Pages. -->
+  <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script defer src="js/portals.js"></script>
+  <script defer src="js/data-loader.js"></script>
+  <script defer src="js/charts.js"></script>
+  <script defer src="js/app.js"></script>
+
+  <!-- Datos estructurados básicos para describir el sitio a los buscadores. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "Panorama de unidades habitacionales Colombia",
+    "description": "Panel de análisis de iniciaciones, lanzamientos, ventas y oferta de vivienda en Colombia.",
+    "creator": {"@type": "Person", "name": "Víctor Vásquez"},
+    "provider": {"@type": "Organization", "name": "Camacol"},
+    "inLanguage": "es-CO",
+    "temporalCoverage": "2010-01/2026-08",
+    "isAccessibleForFree": true
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+  <!-- =========================================================
+       CABECERA: identidad, título del portal y fecha dinámica.
+       La fecha se obtiene de la última fila válida de Lanzamientos.
+       ========================================================= -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./" aria-label="Inteligencia Económica, inicio">
+        <img src="assets/ie-mark.svg" alt="Monograma IEVV" class="brand-mark">
+        <span class="brand-copy">
+          <strong>INTELIGENCIA ECONÓMICA</strong>
+          <small>VÍCTOR V · COLOMBIA</small>
+        </span>
+      </a>
+      <div class="header-meta">
+        <span class="eyebrow">PANEL SECTORIAL</span>
+        <span class="updated-label">Actualizado a</span>
+        <strong id="updated-date">Consultando datos…</strong>
+      </div>
+    </div>
+  </header>
+
+  <main id="contenido" class="page-shell">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">MERCADO DE VIVIENDA · COLOMBIA</p>
+        <h1>Panorama de unidades habitacionales Colombia</h1>
+        <p class="hero-description">Seguimiento de la dinámica de vivienda nueva: iniciaciones, lanzamientos, ventas e inventario disponible.</p>
+        <div class="hero-byline">Creado por <strong>Víctor Vásquez</strong><span aria-hidden="true">·</span> Datos: <strong>Camacol</strong></div>
+      </div>
+      <div class="hero-mark" aria-hidden="true">
+        <span>IE</span>
+        <small>VIVIENDA</small>
+      </div>
+    </section>
+
+    <!-- Estado de carga y errores claros: evita dejar el tablero en blanco. -->
+    <div id="status-message" class="status-message" role="status" aria-live="polite">
+      Cargando el archivo de datos de Camacol…
+    </div>
+
+    <!-- Navegación por pestañas: cada sección mantiene su propio gráfico y explicación. -->
+    <nav class="tab-nav" aria-label="Secciones del análisis">
+      <button class="tab-button active" data-tab="interes" role="tab" aria-selected="true">Información de interés</button>
+      <button class="tab-button" data-tab="iniciaciones" role="tab" aria-selected="false">Iniciaciones</button>
+      <button class="tab-button" data-tab="lanzamientos" role="tab" aria-selected="false">Lanzamientos</button>
+      <button class="tab-button" data-tab="ventas" role="tab" aria-selected="false">Ventas</button>
+      <button class="tab-button" data-tab="oferta" role="tab" aria-selected="false">Oferta</button>
+    </nav>
+
+    <!-- =========================================================
+         PESTAÑA 1: INFORMACIÓN DE INTERÉS
+         La descripción de cobertura conserva el texto suministrado.
+         Se advierte aparte que el archivo Excel llega a agosto de 2026.
+         ========================================================= -->
+    <section id="tab-interes" class="tab-panel active" role="tabpanel">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">CONTEXTO Y METODOLOGÍA</p>
+          <h2>Información de interés</h2>
+          <p>Fuente, cobertura y criterios de clasificación del mercado de vivienda.</p>
+        </div>
+      </div>
+
+      <article class="content-card">
+        <div class="card-heading">
+          <span class="section-kicker">01 · FUENTE</span>
+          <h3>Camacol · Coordenada Urbana</h3>
+        </div>
+        <p>La información presentada corresponde a unidades de vivienda y se encuentra subdividida por rangos de precio, de acuerdo con el salario mínimo mensual legal vigente en cada año.</p>
+        <p>La descripción metodológica suministrada indica que la información está comprendida entre enero de 2010 y septiembre de 2025. El archivo Excel cargado en este portal contiene observaciones mensuales hasta <strong>agosto de 2026</strong>; la fecha de actualización del tablero se calcula a partir de la última fila válida de la hoja <em>Lanzamientos</em>.</p>
+        <p>La información se encuentra desagregada entre las 19 regionales que pertenecen al censo de CU y se realizan agrupaciones de la información en:</p>
+        <ul class="regional-list">
+          <li><strong>5 regionales:</strong> Antioquia, Atlántico, Bogotá &amp; Cundinamarca, Santander y Valle.</li>
+          <li><strong>13 regionales:</strong> las cinco anteriores más Bolívar, Boyacá, Caldas, Huila, Nariño, Norte de Santander, Risaralda y Tolima.</li>
+          <li><strong>18 regionales:</strong> las trece anteriores más Cesar, Meta, Córdoba &amp; Sucre, Magdalena y Quindío.</li>
+          <li><strong>19 regionales:</strong> las dieciocho anteriores más Cauca. <span class="inline-tag">Agrupación utilizada en las gráficas</span></li>
+        </ul>
+        <a class="source-link" href="https://camacol.co/taxonomy/term/334" target="_blank" rel="noopener noreferrer">Consultar las tablas de coyuntura de Camacol ↗</a>
+        <p class="source-note">Fuente de datos: Camacol · Censo Coordenada Urbana. La información se presenta en unidades de vivienda.</p>
+      </article>
+
+      <article class="content-card">
+        <div class="card-heading">
+          <span class="section-kicker">02 · CLASIFICACIÓN</span>
+          <h3>Vivienda VIS y No VIS</h3>
+        </div>
+        <p><strong>VIS</strong> y <strong>No VIS</strong> clasifican la oferta, las ventas y los lanzamientos de vivienda según el precio máximo legal establecido en Colombia y su acceso a políticas o subsidios habitacionales.</p>
+        <div class="definition-grid">
+          <div class="definition-box">
+            <h4>VIS · Vivienda de Interés Social</h4>
+            <p>Son inmuebles cuyo valor comercial no supera el tope fijado por la ley y el Plan Nacional de Desarrollo, expresado en salarios mínimos mensuales legales vigentes (SMLMV).</p>
+            <p>Su tope varía según el municipio o el tipo de proyecto (por ejemplo, 135 o 150 SMLMV, o casos especiales como renovación urbana).</p>
+            <p>Están orientadas a facilitar el acceso a vivienda a hogares de menores o medianos ingresos, permitiendo aplicar a subsidios o programas de apoyo.</p>
+          </div>
+          <div class="definition-box">
+            <h4>No VIS · Vivienda no VIS</h4>
+            <p>Son las viviendas cuyo precio supera el tope legal de la VIS y no tienen un límite máximo reglamentado.</p>
+            <p>Este segmento se analiza como un componente clave de la dinámica comercial y de inversión del sector constructor.</p>
+          </div>
+        </div>
+        <h4 class="subheading">Topes de referencia 2026</h4>
+        <p>Con el Salario Mínimo Mensual Legal Vigente (SMMLV) de 2026 fijado en <strong>$1.750.905</strong>, una vivienda pasa a ser No VIS cuando supera los siguientes valores:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Categoría / ubicación del proyecto</th><th>Límite máximo VIS (2026)</th><th>A partir de qué valor es No VIS</th></tr></thead>
+            <tbody>
+              <tr><td>Municipios generales</td><td>135 SMMLV · $236.372.175</td><td>Más de $236.372.175</td></tr>
+              <tr><td>Grandes ciudades y aglomeraciones (Bogotá, Medellín, Cali, Barranquilla, etc.)</td><td>150 SMMLV · $262.635.750</td><td>Más de $262.635.750</td></tr>
+              <tr><td>Proyectos de renovación urbana (según POT en grandes ciudades)</td><td>175 SMMLV · $306.408.375</td><td>Más de $306.408.375</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="references">
+          <strong>Referencias aportadas:</strong>
+          <a href="https://microdatos.dane.gov.co/index.php/catalog/428/download/7193" target="_blank" rel="noopener noreferrer">DANE</a>,
+          <a href="https://misfinanzasencasa.davivienda.com/finanzas-personales/tips-financieros/vivienda-y-vehiculo/diferencias-viviendas-vip-vis-no-vis/" target="_blank" rel="noopener noreferrer">Davivienda</a>,
+          <a href="https://camacol.co/sites/default/files/descargables/20260115%20Presentaci%C3%B3n%20RP.pdf" target="_blank" rel="noopener noreferrer">Camacol</a>,
+          <a href="https://fincaraizcolombia.com.co/que-es-vivienda-vis/" target="_blank" rel="noopener noreferrer">Finca Raíz</a>,
+          <a href="https://www.metrocuadrado.com/noticias/actualidad/subio-el-precio-tope-de-la-vivienda-de-interes-social-3723" target="_blank" rel="noopener noreferrer">Metrocuadrado</a>.
+        </div>
+      </article>
+    </section>
+
+    <!-- Las cuatro pestañas de análisis comparten el mismo componente de gráfico.
+         data-series identifica la hoja del Excel que debe consultar el cargador. -->
+    <section id="tab-iniciaciones" class="tab-panel" role="tabpanel" hidden>
+      <div class="section-heading">
+        <div><p class="eyebrow">CICLO DE PRODUCCIÓN</p><h2>Iniciaciones</h2><p>Inicio formal de la construcción de vivienda nueva.</p></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title-row"><div><span class="section-kicker">19 REGIONALES · UNIDADES</span><h3>Iniciaciones de vivienda</h3><p>VIS y No VIS en áreas apiladas; total nacional, Bogotá &amp; Cundinamarca y tasa de interés.</p></div><span class="unit-pill">Unidades · %</span></div>
+        <div class="series-controls" data-controls="iniciaciones" aria-label="Seleccionar series del gráfico"></div>
+        <div class="chart-wrap"><canvas id="chart-iniciaciones" aria-label="Gráfico de iniciaciones de vivienda"></canvas></div>
+        <div class="comment-box" id="comment-iniciaciones" hidden></div>
+      </div>
+      <article class="definition-strip"><span class="definition-icon">i</span><div><h3>¿Qué son las iniciaciones?</h3><p><strong>Es cuando arranca formalmente la construcción física</strong> (excavación, cimentación, maquinaria) una vez alcanzado el punto de equilibrio tras el lanzamiento y las ventas.</p></div></article>
+    </section>
+
+    <section id="tab-lanzamientos" class="tab-panel" role="tabpanel" hidden>
+      <div class="section-heading">
+        <div><p class="eyebrow">ENTRADA DE NUEVA OFERTA</p><h2>Lanzamientos</h2><p>Proyectos o etapas que salen al mercado e inician su etapa de venta.</p></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title-row"><div><span class="section-kicker">19 REGIONALES · UNIDADES</span><h3>Lanzamientos de vivienda</h3><p>VIS y No VIS en áreas apiladas; total nacional, Bogotá &amp; Cundinamarca y tasa de interés.</p></div><span class="unit-pill">Unidades · %</span></div>
+        <div class="series-controls" data-controls="lanzamientos" aria-label="Seleccionar series del gráfico"></div>
+        <div class="chart-wrap"><canvas id="chart-lanzamientos" aria-label="Gráfico de lanzamientos de vivienda"></canvas></div>
+        <div class="comment-box" id="comment-lanzamientos" hidden></div>
+      </div>
+      <article class="definition-strip"><span class="definition-icon">i</span><div><h3>¿Qué son los lanzamientos?</h3><p>Los <strong>lanzamientos</strong> son los proyectos o etapas de proyectos de edificación (principalmente vivienda nueva) que salen al mercado e inician su etapa de venta durante un período determinado. La constructora abre la sala de ventas y pone las unidades en el mercado (sobre planos).</p><p>Que una unidad se lance no significa que ya haya comenzado a construirse ni que esté vendida; representa la entrada de <strong>nueva oferta</strong> disponible para comercialización (por ejemplo, en preventa).</p></div></article>
+    </section>
+
+    <section id="tab-ventas" class="tab-panel" role="tabpanel" hidden>
+      <div class="section-heading">
+        <div><p class="eyebrow">DEMANDA COMERCIAL</p><h2>Ventas</h2><p>Unidades comercializadas en el mercado de vivienda nueva.</p></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title-row"><div><span class="section-kicker">19 REGIONALES · UNIDADES</span><h3>Ventas de vivienda</h3><p>VIS y No VIS en áreas apiladas; total nacional, Bogotá &amp; Cundinamarca y tasa de interés.</p></div><span class="unit-pill">Unidades · %</span></div>
+        <div class="series-controls" data-controls="ventas" aria-label="Seleccionar series del gráfico"></div>
+        <div class="chart-wrap"><canvas id="chart-ventas" aria-label="Gráfico de ventas de vivienda"></canvas></div>
+        <div class="comment-box" id="comment-ventas" hidden></div>
+      </div>
+      <article class="definition-strip"><span class="definition-icon">i</span><div><h3>¿Qué son las ventas?</h3><p>Son las unidades que pasan de estar en oferta disponible a quedar comprometidas mediante una separación formal o promesa de compraventa con un comprador.</p><p>Se contabilizan como ventas las unidades comercializadas tanto <strong>sobre planos (preventa)</strong> como las que ya están <strong>en construcción</strong> o <strong>terminadas</strong> (inventario listo para entrega).</p></div></article>
+    </section>
+
+    <section id="tab-oferta" class="tab-panel" role="tabpanel" hidden>
+      <div class="section-heading">
+        <div><p class="eyebrow">INVENTARIO DISPONIBLE</p><h2>Oferta</h2><p>Unidades de vivienda nueva activas en el mercado a una fecha de corte.</p></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title-row"><div><span class="section-kicker">19 REGIONALES · UNIDADES</span><h3>Oferta de vivienda</h3><p>VIS y No VIS en áreas apiladas; total nacional, Bogotá &amp; Cundinamarca y tasa de interés.</p></div><span class="unit-pill">Unidades · %</span></div>
+        <div class="series-controls" data-controls="oferta" aria-label="Seleccionar series del gráfico"></div>
+        <div class="chart-wrap"><canvas id="chart-oferta" aria-label="Gráfico de oferta de vivienda"></canvas></div>
+        <div class="comment-box" id="comment-oferta" hidden></div>
+      </div>
+      <article class="definition-strip"><span class="definition-icon">i</span><div><h3>¿Qué es la oferta?</h3><p>Es el <strong>inventario total de unidades de vivienda nueva que están activas en el mercado y disponibles para la venta en una fecha de corte específica</strong> (por ejemplo, al cierre de un mes).</p><p>Abarca todas las unidades sin comprador asignado, sin importar su estado físico: pueden estar <strong>en preventa (sobre planos)</strong>, <strong>en construcción</strong> o <strong>terminadas</strong> (listas para entrega inmediata).</p><p>La oferta disponible del mes se calcula sumando al inventario anterior los nuevos <strong>lanzamientos</strong> y los <strong>desistimientos</strong> (unidades que se habían vendido pero el comprador echó para atrás), y restando las <strong>ventas</strong> efectivas del periodo.</p></div></article>
+    </section>
+
+    <footer class="site-footer">
+      <div><strong>INTELIGENCIA ECONÓMICA</strong><span>Creado por Víctor Vásquez · Derechos reservados.</span></div>
+      <div><span>Fuente: Camacol · Coordenada Urbana</span><a id="ipc-portal-link" href="https://rotciv2008.github.io/EconomicsIntelligence/" target="_blank" rel="noopener noreferrer">Consultar portal de análisis del IPC ↗</a></div>
+    </footer>
+  </main>
+</body>
+</html>
