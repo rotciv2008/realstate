@@ -7,9 +7,9 @@
  * Columnas utilizadas (índice JavaScript, comenzando en cero):
  *   A  = Fecha                         -> 0
  *   V  = Bogotá & Cundinamarca TOTAL   -> 22
- *   FD = 19 Regionales VIS             -> 159
- *   FE = 19 Regionales NO VIS          -> 160
- *   FF = 19 Regionales TOTAL           -> 161
+ *   FD = 19 Regionales VIS             -> 160
+ *   FE = 19 Regionales NO VIS          -> 161
+ *   FF = 19 Regionales TOTAL           -> 162
  *   Hoja "tasas de interes": A=Fecha, B=Tasa -> 0 y 1
  *
  * Si Camacol modifica la estructura del Excel, revisar primero estos índices.
@@ -23,9 +23,9 @@
     firstDataRowIndex: 6, // Fila 7 de Excel: primera observación mensual.
     columns: {
       bogotaTotal: 22,
-      vis19: 159,
-      noVis19: 160,
-      total19: 161
+      vis19: 160,
+      noVis19: 161,
+      total19: 162
     },
     sheets: {
       iniciaciones: "Iniciaciones",
